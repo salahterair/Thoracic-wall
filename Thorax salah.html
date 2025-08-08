@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Thoracic Wall MCQ — UMST Faculty of Medicine</title>
+<style>
+  :root{
+    --bg:#0f172a; --card:#0b1020; --ink:#e5e7eb; --muted:#9ca3af;
+    --line:#1f2937; --accent:#22c55e; --danger:#ef4444; --brand:#d91f26;
+  }
+  html,body{height:100%;margin:0;background:linear-gradient(135deg,#0b1226,#0f172a);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  .wrap{max-width:980px;margin:0 auto;padding:18px}
+  header{display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:center;margin-bottom:12px}
+  header img{width:88px;height:auto;border-radius:8px;border:1px solid var(--line);background:#fff}
+  .head-copy{display:flex;flex-direction:column;gap:4px}
+  .uni{font-weight:800;font-size:18px;line-height:1.2}
+  .dept{color:var(--muted);font-size:14px}
+  .batch{color:#e9e9e9;font-weight:600}
+  .card{background:linear-gradient(180deg,#0b1020,#090f1a);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 28px rgba(0,0,0,.25);padding:18px}
+  .title{font-weight:800;font-size:22px;margin:2px 0 10px}
+  .meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  .pill{border:1px solid var(--line);border-radius:999px;padding:4px 8px;color:var(--muted);font-size:12px}
+  .meter{height:10px;background:#0b0f1a;border:1px solid #23314a;border-radius:999px;overflow:hidden}
+  .meter>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#22d3ee);transition:width .35s ease}
+  .qbox{margin-top:16px}
+  .q{font-weight:700;margin:2px 0 8px}
+  .options{display:grid;gap:10px;margin-top:8px}
+  label.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid #263243;background:#0b1020;border-radius:12px;padding:10px;cursor:pointer}
+  input[type=radio]{margin-top:4px}
+  .feedback{margin-top:10px;font-size:14px}
+  .good{color:var(--accent)}
+  .bad{color:var(--danger)}
+  .controls{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+  button{background:#1f2937;color:var(--ink);border:1px solid #2a394d;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}
+  button.primary{background:linear-gradient(180deg,#2563eb,#1d4ed8);border-color:#3b82f6}
+  button:disabled{opacity:.6;cursor:not-allowed}
+  .muted{color:var(--muted)}
+  .summary{margin-top:16px}
+  .kicker{color:#a7f3d0;font-weight:700}
+  .footer-note{margin-top:10px;color:var(--muted);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="logo.jpg" alt="UMST Logo" />
+    <div class="head-copy">
+      <div class="uni">University of Medical Sciences & Technology</div>
+      <div class="dept">Faculty of Medicine</div>
+      <div class="batch">Batch 30 & 28 – Abha Center</div>
+    </div>
+  </header>
+
+  <div class="card">
+    <div class="title">Thoracic Wall — MCQ Quiz</div>
+    <div class="meta">
+      <span class="pill">Batch 30 & 28 – Abha Center</span>
+      <span class="pill">Format: Clinical vignettes (simple)</span>
+      <span class="pill">Questions: <span id="total">0</span></span>
+      <span class="pill">Score: <b id="score">0</b></span>
+      <span class="pill">Q <b id="idx">0</b>/<b id="tidx">0</b></span>
+       <span class="pill">Created by Dr. Salaheldin Terair</span>
+    </div>
+    <div class="meter"><span id="bar"></span></div>
+
+    <div id="mount" class="qbox"></div>
+
+    <div class="controls">
+      <button id="submitBtn" class="primary" disabled>Submit</button>
+      <button id="nextBtn" disabled>Next</button>
+      <button id="restartBtn">Restart</button>
+    </div>
+    <div class="footer-note">Tip: select an option, submit to see feedback, then go next.</div>
+  </div>
+</div>
+
+<script>
+/* -------------------- DATA -------------------- */
+/* Each question object:
+   q: text, options: ["A","B","C","D"], answer: index 0-3, explanation: text
+*/
+const QUESTIONS = [
+  {
+    q: "In clinic you want to count ribs before auscultation. Which palpable landmark reliably identifies the 2nd rib?",
+    options: ["Jugular notch", "Sternal angle (of Louis)", "Xiphoid process", "Costal margin"],
+    answer: 1,
+    explanation: "The sternal angle is the articulation of manubrium with the body of sternum and marks the 2nd costal cartilage; it lies at the T4/5 plane."
+  },
+  {
+    q: "A patient with a large pneumothorax requires a chest drain. The safest standard site is:",
+    options: ["2nd intercostal space, mid-clavicular line", "5th intercostal space, anterior to mid-axillary line (triangle of safety)", "8th intercostal space, posterior axillary line", "3rd intercostal space, parasternal"],
+    answer: 1,
+    explanation: "For a definitive chest tube, place in the triangle of safety—around the 5th intercostal space anterior to the mid-axillary line, avoiding the neurovascular bundle."
+  },
+  {
+    q: "During an intercostal nerve block you want to avoid injury to the main neurovascular bundle. Where should the needle tip track?",
+    options: ["Just inferior to the upper rib", "Just superior to the lower rib", "Middle of the interspace", "Through the costal cartilage"],
+    answer: 1,
+    explanation: "The VAN bundle runs in the costal groove along the inferior margin of the upper rib; therefore place the needle along the superior border of the lower rib."
+  },
+  {
+    q: "A median sternotomy begins to bleed near the lateral edge of the sternum behind the costal cartilages. Which vessel is most at risk?",
+    options: ["Internal thoracic artery", "Musculophrenic artery", "Posterior intercostal artery", "Superior epigastric artery"],
+    answer: 0,
+    explanation: "The internal thoracic (internal mammary) artery runs vertically just lateral to the sternum behind costal cartilages and gives anterior intercostal branches."
+  },
+  {
+    q: "Posterior intercostal arteries for spaces 3–11 arise directly from the:",
+    options: ["Internal thoracic artery", "Thoracic aorta", "Subclavian artery", "Musculophrenic artery"],
+    answer: 1,
+    explanation: "Posterior intercostals 3–11 (and subcostal) come from the thoracic aorta; 1–2 come from the supreme intercostal (costocervical trunk)."
+  },
+  {
+    q: "A male patient reports a band-like pain that passes through the nipple level. Which dermatome corresponds to this level?",
+    options: ["T2", "T4", "T6", "T8"],
+    answer: 1,
+    explanation: "In males, the nipple typically lies at the T4 dermatome."
+  },
+  {
+    q: "Which rib is considered a typical rib?",
+    options: ["1st rib", "2nd rib", "7th rib", "12th rib"],
+    answer: 2,
+    explanation: "Ribs 3–9 are typical; 1, 2, 10–12 are atypical. The 7th rib has the standard features (head with two facets, neck, tubercle, angle, costal groove)."
+  },
+  {
+    q: "An injury to the lower chest wall shows a rib without a neck or tubercle and with a single-facet head. Which rib best fits this description?",
+    options: ["2nd rib", "7th rib", "10th rib", "11th rib"],
+    answer: 3,
+    explanation: "Ribs 11 and 12 are floating ribs lacking tubercles and necks; each has a single facet on the head."
+  },
+  {
+    q: "Deep inspiration increases the anteroposterior diameter of the upper thorax by the ______ movement of ribs.",
+    options: ["Bucket-handle", "Pump-handle", "Caliper", "Scissor"],
+    answer: 1,
+    explanation: "Pump-handle motion (ribs 2–6) elevates the anterior ends of the ribs and sternum, increasing the AP diameter."
+  },
+  {
+    q: "Which movement primarily increases the transverse diameter of the lower thorax during inspiration?",
+    options: ["Pump-handle", "Bucket-handle", "Caliper", "Pivot"],
+    answer: 1,
+    explanation: "Bucket-handle motion (ribs 7–10) elevates the middle shafts laterally to increase the transverse diameter."
+  },
+  {
+    q: "Which statement best describes external intercostal muscles?",
+    options: ["Fibers run inferoposteriorly; depress ribs", "Fibers run infero-anteriorly; elevate ribs", "Fibers run supero-anteriorly; elevate ribs", "Only present from sternum to costal angle"],
+    answer: 1,
+    explanation: "External intercostals run infero-anteriorly (hands-in-pockets) and elevate ribs; they are replaced anteriorly by external intercostal membrane."
+  },
+  {
+    q: "Forced expiration (coughing) is aided mainly by which intercostal component?",
+    options: ["Interchondral part of internal intercostals", "Interosseous part of internal intercostals", "External intercostals", "Diaphragm"],
+    answer: 1,
+    explanation: "The interosseous part of internal intercostals depresses the ribs, assisting forced expiration."
+  },
+  {
+    q: "The internal thoracic artery is a direct branch of the:",
+    options: ["Ascending aorta", "Subclavian artery", "Axillary artery", "Thoracoacromial trunk"],
+    answer: 1,
+    explanation: "Each internal thoracic artery arises from the corresponding subclavian artery."
+  },
+  {
+    q: "Which nerve lies inferior to the 12th rib and is the ventral ramus of T12?",
+    options: ["T1 intercostal nerve", "T2 intercostal nerve", "Subcostal nerve", "Phrenic nerve"],
+    answer: 2,
+    explanation: "T12 ventral ramus is the subcostal nerve and runs beneath the 12th rib."
+  },
+  {
+    q: "The manubriosternal joint (sternal angle) is at the same horizontal plane as which of the following?",
+    options: ["T1/T2 disc; apex of lung", "T2/T3 disc; azygos arch", "T4/T5 disc; tracheal bifurcation", "T6/T7 disc; diaphragm dome"],
+    answer: 2,
+    explanation: "The sternal angle corresponds to the T4/5 level and approximates the level of the tracheal bifurcation (carina)."
+  },
+  {
+    q: "The costal margin is formed by the cartilages of which ribs?",
+    options: ["1–6", "7–10", "8–12", "3–9"],
+    answer: 1,
+    explanation: "The cartilages of ribs 7–10 form the costal margin; ribs 11–12 are floating."
+  },
+  {
+    q: "Arrange the structures in the intercostal space from superior to inferior along the costal groove.",
+    options: ["A-V-N", "V-A-N", "N-A-V", "V-N-A"],
+    answer: 1,
+    explanation: "The usual order is Vein-Artery-Nerve (VAN) in the costal groove on the inferior border of the upper rib."
+  },
+  {
+    q: "Where is bone marrow sampling sometimes performed on the thoracic wall in adults?",
+    options: ["Sternal body", "Xiphoid process", "Manubrium only", "Rib angle"],
+    answer: 0,
+    explanation: "The sternal body can be used for bone marrow biopsy (with caution due to mediastinal structures posteriorly)."
+  },
+  {
+    q: "A pleural tap (thoracentesis) is planned at the 8th intercostal space in the mid-axillary line. To minimize injury to the VAN bundle, the needle should pass:",
+    options: ["Just inferior to the upper rib", "Just superior to the lower rib", "Through the center of the space", "Above the costal cartilage"],
+    answer: 1,
+    explanation: "As with nerve blocks, pass along the superior border of the lower rib to avoid the neurovascular bundle."
+  },
+  {
+    q: "During breast surgery, a perforating branch through the 2nd–4th costal cartilages is encountered. It most likely arises from the:",
+    options: ["Posterior intercostal artery", "Internal thoracic artery", "Lateral thoracic artery", "Thoracoacromial trunk"],
+    answer: 1,
+    explanation: "Perforating branches of the internal thoracic artery supply the anterior thoracic wall and breast."
+  }
+];
+
+/* -------------------- QUIZ ENGINE -------------------- */
+let idx = 0;               // 0-based question index
+let score = 0;             // +1 per correct
+let answered = false;
+
+const $mount = document.getElementById("mount");
+const $submit = document.getElementById("submitBtn");
+const $next = document.getElementById("nextBtn");
+const $restart = document.getElementById("restartBtn");
+const $score = document.getElementById("score");
+const $bar = document.getElementById("bar");
+const $idx = document.getElementById("idx");
+const $tidx = document.getElementById("tidx");
+const $total = document.getElementById("total");
+
+$total.textContent = QUESTIONS.length;
+$tidx.textContent = QUESTIONS.length;
+
+function renderQuestion() {
+  const q = QUESTIONS[idx];
+  $mount.innerHTML = `
+    <div class="q"><span class="pill" style="border-color:#334155">Q${idx+1}</span> ${q.q}</div>
+    <div class="options">
+      ${q.options.map((opt,i)=>`
+        <label class="opt">
+          <input type="radio" name="opt" value="${i}">
+          <div>${String.fromCharCode(65+i)}. ${opt}</div>
+        </label>
+      `).join("")}
+    </div>
+    <div id="fb" class="feedback muted"></div>
+  `;
+  $idx.textContent = idx+1;
+  answered = false;
+  $submit.disabled = true;
+  $next.disabled = true;
+
+  // enable submit when an option is chosen
+  [...$mount.querySelectorAll('input[type=radio]')].forEach(r=>{
+    r.addEventListener('change', ()=>{ $submit.disabled = false; });
+  });
+
+  updateMeter();
+}
+
+function updateMeter(){
+  const pct = Math.round(((idx) / QUESTIONS.length) * 100);
+  $bar.style.width = pct + "%";
+}
+
+$submit.addEventListener('click', ()=>{
+  if (answered) return;
+  const sel = $mount.querySelector('input[type=radio]:checked');
+  if (!sel) return;
+  answered = true;
+  const choice = Number(sel.value);
+  const q = QUESTIONS[idx];
+  const fb = document.getElementById('fb');
+
+  if (choice === q.answer) {
+    score += 1;
+    fb.innerHTML = `<span class="good">Correct.</span> ${q.explanation}`;
+  } else {
+    fb.innerHTML = `<span class="bad">Not quite.</span> ${q.explanation}`;
+  }
+  document.getElementById('score').textContent = score;
+  $next.disabled = false;
+  $submit.disabled = true;
+});
+
+$next.addEventListener('click', ()=>{
+  if (idx < QUESTIONS.length - 1) {
+    idx += 1;
+    renderQuestion();
+  } else {
+    finish();
+  }
+});
+
+$restart.addEventListener('click', ()=>{
+  idx = 0; score = 0;
+  document.getElementById('score').textContent = score;
+  renderQuestion();
+});
+
+function finish(){
+  $mount.innerHTML = `
+    <div class="summary">
+      <div class="kicker">Quiz Complete</div>
+      <p>You scored <b>${score}</b> / <b>${QUESTIONS.length}</b>.</p>
+      <p class="muted">Review: refresh the page or press <b>Restart</b> to try again.</p>
+    </div>
+  `;
+  $next.disabled = true;
+  $submit.disabled = true;
+  $bar.style.width = "100%";
+}
+
+/* init */
+renderQuestion();
+</script>
+</body>
+</html>
